@@ -1,4 +1,4 @@
-import {request,location} from '@/api/index.js'
+import { location, request } from '@/api/index.js'
 
 
 /**
@@ -19,8 +19,16 @@ export function getCityListAPI() {
  * **/
 export function getCurrentPosition(params) {
 	return location({
-		url : '/data/reverse-geocode-client',
+		url: '/data/reverse-geocode-client',
 		params
 	})
 }
 
+/**
+ * 热门建议
+ * **/
+export function getHotSuggestionsAPI() {
+	return request({
+		url: '/home/hotSuggests'
+	})
+}

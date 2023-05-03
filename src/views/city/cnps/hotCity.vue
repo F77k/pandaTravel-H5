@@ -4,14 +4,14 @@
 				<span>热门</span>
 				<div class = 'hotBox'>
 						<template
-								v-if='!porps.active'
+								v-if='!props.active'
 								v-for = 'item in CityList.homeHot'>
-								<div @click='cityClick(item.cityName)'>{{ item.cityName }}</div>
+								<div @click='cityClick(item)'>{{ item.cityName }}</div>
 						</template>
 						<template
 								v-else
 								v-for = 'item in CityList.foreignHot'>
-								<div @click='cityClick(item.cityName)'>{{ item.cityName }}</div>
+								<div @click='cityClick(item)'>{{ item.cityName }}</div>
 						</template>
 				</div>
 		</div>
@@ -24,8 +24,9 @@ import { useRouter } from 'vue-router'
 const router=useRouter()
 //获取pinia
 const cityStore=useCity()
-//获取porps
-const porps=defineProps(['active'])
+//获取props
+const props=defineProps(['active','cityAll'])
+
 const CityList=computed(()=>{
 		//返回国内热门地点
 		return {
@@ -37,7 +38,7 @@ const CityList=computed(()=>{
 })
 //点击热门城市返回home页面数据回显
 const cityClick=(city)=>{
-		cityStore.cityName=city
+		cityStore.currentCity=city
 		router.back()
 }
 </script>
@@ -63,13 +64,14 @@ const cityClick=(city)=>{
 				margin: 0 15px 10px 15px;
 				
 				div {
+						font-size: 13px;
 						display: flex;
 						float: left;
 						width: 60px;
 						height: 30px;
 						align-items: center;
 						justify-content: center;
-						background-color: #ff9854;
+						background-color: #fff4ec;
 						margin: 3px;
 						border-radius: 20px;
 				}

@@ -1,10 +1,20 @@
 import { defineStore } from 'pinia'
+import { getHotSuggestionsAPI } from '@/api/modules/home.js'
 
 
 const useHome = defineStore('home', {
 	state() {
-		return {}
+		return {
+			hotCity: {},
+			price:[],
+		
+		}
 	},
-	actions: {}
+	actions: {
+		async gethotCity() {
+			let res = await getHotSuggestionsAPI()
+			this.hotCity=res.data
+		}
+	}
 })
 export default useHome;

@@ -37,6 +37,11 @@ const router = createRouter({
 			component: () => import('../views/city/index.vue'),
 			meta: {showTab: false}
 		},
+		{
+			path: '/keySearch',
+			component: () => import('../views/keySearch/index.vue'),
+			meta: {showTab: false}
+		},
 	]
 })
 export default router;
