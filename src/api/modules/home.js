@@ -32,3 +32,48 @@ export function getHotSuggestionsAPI() {
 		url: '/home/hotSuggests'
 	})
 }
+
+/**
+ * 主页热门推荐
+ * */
+export function getHomeHotSuggestsAPI() {
+	return request({
+		url: '/home/hotSuggests'
+	})
+}
+
+/**
+ * 推荐类别（首页小图标房子）
+ * */
+export function getHomeCategoriesAPI() {
+	return request({
+		url: '/home/categories',
+		method: 'GET'
+	})
+}
+
+/**
+ * 获取房屋列表
+ * @param currentPage
+ * */
+export function getHouseList(currentPage = 1) {
+	return request({
+		url: 'home/houselist',
+		params: {
+			page: currentPage
+		}
+	})
+}
+
+/**
+ * 酒店详情
+ * @param houseId 当前点击的房子id
+ * */
+export function getHotelDetailsAPI(houseId) {
+	return request({
+		url: '/detail/infos',
+		params: {
+			houseId
+		}
+	})
+}

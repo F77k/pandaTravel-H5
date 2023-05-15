@@ -1,8 +1,8 @@
-import { createMemoryHistory, createRouter } from 'vue-router'
+import { createWebHashHistory, createRouter } from 'vue-router'
 
 
 const router = createRouter({
-	history: createMemoryHistory(),
+	history: createWebHashHistory(),
 	routes: [
 		{
 			path: '/',
@@ -40,6 +40,16 @@ const router = createRouter({
 		{
 			path: '/keySearch',
 			component: () => import('../views/keySearch/index.vue'),
+			meta: {showTab: false}
+		},
+		{
+			path: '/hotelSearch',
+			component: () => import('../views/hotelSearch/index.vue'),
+			meta: {showTab: false}
+		},
+		{
+			path: '/detail/:id',
+			component: () => import('../views/detail/index.vue'),
 			meta: {showTab: false}
 		},
 	]

@@ -37,7 +37,22 @@
 				<hot-recommend></hot-recommend>
 				<!--关键词搜索-->
 				<keyword-search></keyword-search>
+				<!--首页的热门推荐-->
+				<div class = 'hot-suggests'>
+						<template v-for = '(item , index) in houseSuggests.data'>
+								<div :style = '{color:item.tagText.color,background:item.tagText.background.color,}'
+								     class = 'item hotItem'
+								     @click='getHotDistrict(item)'
+								>{{ item.tagText.text }}
+								</div>
+						</template>
 				</div>
+			
+				<!--搜索按钮-->
+				<div class = 'searchBtn'>
+						<van-button color = '#fca939' round size = 'large' @click='goSearch'>开始搜索</van-button>
+				</div>
+		</div>
 </template>
 
 <script setup>
@@ -51,8 +66,11 @@ import useMian from '@/store/modules/mian.js'
 import { storeToRefs } from 'pinia'
 import HotRecommend from '@/views/home/cpns/hotRecommend.vue'
 import KeywordSearch from '@/views/home/cpns/keywordSearch.vue'
+import useHome from '@/store/modules/home.js'
+import HomeScrollSearch from '@/components/homeScrollSearch.vue'
 
 
+const homeStore = useHome()
 const cityStore = useCity()
 
 const router = useRouter()
@@ -99,11 +117,34 @@ const onConfirm = (dataTime) => {
 		showCalendar.value = false
 }
 
+//首页热门推荐
+homeStore.getHomeHotSuggestsFN()
+const {houseSuggests} = storeToRefs(homeStore)
+const getHotDistrict=(item)=>{
+		cityStore.hotDistrict=item.tagText.text
+}
+//搜索按钮
+const goSearch=()=> {
+		router.push({
+				path:'/hotelSearch',
+				query:{
+						startDate:startDateStr.value,
+						endDateStr:endDateStr.value,
+				}
+		})
+}
 </script>
 
 <style lang = 'scss' scoped>
 .search-box {
 		--van-calendar-popup-height: 100%;
+}
+
+.searchBtn {
+		padding: 10px 20px;
+		.van-button--large {
+				height: 40px;
+		}
 }
 
 .location {
@@ -196,9 +237,12 @@ const onConfirm = (dataTime) => {
 }
 
 .hot-suggests {
-		margin: 10px 0;
 		height: auto;
-		
+		display: flex;
+		margin: 10px 0;
+		padding: 0 20px;
+		flex-wrap: wrap;
+		align-items: center;
 		.item {
 				padding: 4px 8px;
 				margin: 4px;
@@ -206,6 +250,8 @@ const onConfirm = (dataTime) => {
 				font-size: 12px;
 				line-height: 1;
 		}
+		
+
 }
 
 .search-btn {

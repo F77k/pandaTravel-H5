@@ -1,7 +1,9 @@
 <template>
 		<div class = 'hot'>
 				<div class = 'hotitem'>
-						<span style = 'width: 65%;	border-right: 1px solid #f3f3f3;' @click = 'showPrice=true'>价格不限</span>
+						<span :style = "{ color: isPrice?'#333333':'#999999'}"
+						      style = 'width: 65%;	border-right: 1px solid #f3f3f3;'
+						      @click = 'showPrice=true'>{{ priceComp || '价格不限' }}</span>
 						<span style = 'width: 30%;padding-left: 20px'>人数不限</span>
 				</div>
 				<!--价格选择的弹窗-->
@@ -17,7 +19,7 @@
 								<h3>价格</h3>
 								<div class = 'box-section'>
 										<div class = 'topPriceNav'>
-												价格区间<span>￥{{ sibBack[0] }}-￥{{sibBack[1]}}</span>
+												价格区间<span>￥{{ sibBack[0] }}-￥{{ sibBack[1] }}</span>
 										</div>
 										<!--价格滑块-->
 										<div class = 'backFq'>
@@ -27,11 +29,11 @@
 														:min = '0'
 														active-color = '#ff9645' class = 'backBtn'
 														range
-														@change = 'onChange'>
+												>
 												</van-slider>
 										</div>
 										<!--价格区间选择-->
-										<div class='textPrice'>
+										<div class = 'textPrice'>
 												<span>￥100以下</span>
 												<span>￥100-200</span>
 												<span>￥200-300</span>
@@ -46,14 +48,14 @@
 												class = 'cancelBtn' color = '#ffffff'
 												round
 												style = 'color: black'
-												@click='showPrice=false'
-												type = 'success'>取消
+												type = 'success'
+												@click = 'showPrice=false'>取消
 										</van-button>
 										<van-button
 												class = 'confirmBtn' color = '#ff9645'
 												round
-												@click='confirmPrice'
-												type = 'success'>确认
+												type = 'success'
+												@click = 'confirmPrice'>确认
 										</van-button>
 								</div>
 						</div>
@@ -64,21 +66,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import useHome from '@/store/modules/home.js'
 //价格
-const homeStore=useHome()
-const showPrice = ref(false)
-//价格滑块
-const onChange = (state,end) => {
-
-}
-//确认-保存选择的价格
-const confirmPrice=()=>{
-		homeStore.price=sibBack.value
-		showPrice.value=false//关闭弹窗
-}
+const homeStore = useHome()
 const sibBack = ref([0, 2000])
+let showPrice = ref(false)
+//确认-保存选择的价格
+const confirmPrice = () => {
+		homeStore.price = sibBack.value
+		showPrice.value = false//关闭弹窗
+}
+const isPrice = ref(false)
+//回显选择好的价格区间至主页
+const priceComp = computed(() => {
+		if (homeStore.price[0] === undefined) {
+				return '价格不限'
+		} else {
+				isPrice.value = true
+				return '￥' + homeStore.price[0] + '-' + '￥' + homeStore.price[1]
+		}
+})
+
+
 </script>
 
 <style lang = 'scss' scoped>
@@ -133,9 +143,11 @@ const sibBack = ref([0, 2000])
 								}
 						}
 				}
-				.textPrice{
+				
+				.textPrice {
 						margin-top: 30px;
-						span{
+						
+						span {
 								padding: 2px;
 								height: 20px;
 								float: left;
@@ -148,6 +160,7 @@ const sibBack = ref([0, 2000])
 								border-radius: 20px;
 						}
 				}
+				
 				.btn {
 						.cancelBtn {
 								width: 90px;

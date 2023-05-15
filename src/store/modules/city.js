@@ -9,6 +9,7 @@ const useCity = defineStore('city', {
 				cityName: '四川',
 			},
 			homeHotCityList: [],
+			hotDistrict:null,
 		}
 	},
 	actions: {

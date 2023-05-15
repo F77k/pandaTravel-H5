@@ -1,33 +1,47 @@
 <template>
-		<div class='keyWord'>
-				<div class='font' @click='enterSearch'>
-				关键字/位置/民宿名
+		<div class = 'keyWord'>
+				<div class = 'font'
+				     :style="{color:isKeyText?'#333333':'#999999'}"
+				     @click = 'enterSearch'
+				>
+						{{ keyText }}
 				</div>
-		<!--关键词搜索界面-->
-		
 		</div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
+import useCity from '@/store/modules/city.js'
 
 
-const router=useRouter()
-const enterSearch=()=>{
+const cityStore = useCity()
+const isKeyText=ref(false)
+const router = useRouter()
+const keyText = computed(() => {
+		if (cityStore.hotDistrict === null) {
+				return '关键字 / 位置 / 民宿名'
+		} else {
+				isKeyText.value=true
+				return cityStore.hotDistrict
+		}
+})
+const enterSearch = () => {
 		router.push('/keySearch')
 }
 </script>
 
-<style scoped lang='scss'>
+<style lang = 'scss' scoped>
 
-.keyWord{
+.keyWord {
 		height: 40px;
-.font{
-		display: flex;
-		line-height: 40px;
-		padding: 0 20px;
-		font-size: 14px;
-		color: #999999;
-}
+		
+		.font {
+				display: flex;
+				line-height: 40px;
+				padding: 0 20px;
+				font-size: 14px;
+				color: #999999;
+		}
 }
 </style>
